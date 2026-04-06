@@ -151,7 +151,7 @@ From the Transactions page, data can be exported in two formats:
 
 ---
 
-## Assumptions Made
+## Key Notes
 
 - Currency is fixed to INR (₹) 
 - Roles are frontend-only with no authentication — switching roles via the dropdown is intentional for demonstration
