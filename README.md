@@ -26,7 +26,6 @@ A clean, minimal financial dashboard built with React for tracking income, expen
 ```bash
 # Clone the repository
 git clone https://github.com/yuzikage/finance-dashboard.git
-cd fintrack
 
 # Install dependencies
 npm install
