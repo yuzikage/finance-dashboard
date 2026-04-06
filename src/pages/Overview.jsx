@@ -42,14 +42,24 @@ export default function Overview() {
   ];
 
   return (
-    <div style={{ display:"flex", flexDirection:"column", gap:24 }}>
+    <div style={{ display:"flex", flexDirection:"column", gap:24, animation:"fadeIn 0.3s ease" }}>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))", gap:14 }}>
         {metrics.map((m, i) => (
-          <div key={i} style={{ ...S.card, borderLeft:`4px solid ${m.color}` }}>
-            <div style={{ fontSize:12, fontWeight:500, color:"#999", letterSpacing:"0.4px", textTransform:"uppercase", marginBottom:6 }}>{m.label}</div>
-            <div style={{ fontSize:26, fontWeight:700, color:"#111", lineHeight:1.2 }}>{m.value}</div>
-            <div style={{ fontSize:12, color:"#888", marginTop:4 }}>{m.sub}</div>
-          </div>
+            <div key={i} style={{ ...S.card, borderLeft:`4px solid ${m.color}` }} 
+            onMouseEnter={e => {
+                e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.07)";
+                e.currentTarget.style.borderColor = m.color;
+            }}
+            onMouseLeave={e => {
+                e.currentTarget.style.boxShadow = "none";
+                e.currentTarget.style.borderColor = "#F0F0F0";
+                e.currentTarget.style.borderLeftColor = m.color;
+            }}
+            >
+                <div style={{ fontSize:12, fontWeight:500, color:"#999", letterSpacing:"0.4px", textTransform:"uppercase", marginBottom:6 }}>{m.label}</div>
+                <div style={{ fontSize:26, fontWeight:700, color:"#111", lineHeight:1.2 }}>{m.value}</div>
+                <div style={{ fontSize:12, color:"#888", marginTop:4 }}>{m.sub}</div>
+            </div>
         ))}
       </div>
 

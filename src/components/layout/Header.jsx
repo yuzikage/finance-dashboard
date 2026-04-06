@@ -30,7 +30,7 @@ export default function Header({ page, setPage }) {
                   <option value="admin">Admin</option>
                 </select>
               </div>
-              <div style={{ width:30, height:30, borderRadius:"50%", background: state.role==="admin" ? "#111" : "#E8E8E8", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:600, color: state.role==="admin" ? "#fff" : "#555" }}>
+              <div style={{ width:30, height:30, borderRadius:"50%", background: state.role==="admin" ? "#111" : "#E8E8E8", transition:"background 0.2s ease", display:"flex", alignItems:"center", justifyContent:"center", fontSize:12, fontWeight:600, color: state.role==="admin" ? "#fff" : "#555" }}>
                 {state.role==="admin" ? "A" : "V"}
               </div>
             </div>

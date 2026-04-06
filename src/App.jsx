@@ -6,6 +6,7 @@ import RoleBanner from "./components/layout/RoleBanner";
 import Overview from "./pages/Overview";
 import Transactions from "./pages/Transactions";
 import Insights from "./pages/Insights";
+import "./styles/App.css";
 
 export default function App() {
   const [page, setPage] = useState("overview");

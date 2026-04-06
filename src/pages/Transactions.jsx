@@ -66,7 +66,7 @@ export default function Transactions() {
     };
     
   return (
-    <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+    <div style={{ display:"flex", flexDirection:"column", gap:16, animation:"fadeIn 0.3s ease" }}>
       {/* Filters */}
       <div style={{ ...S.card, padding:"16px 20px" }}>
         <div style={{ display:"flex", gap:10, flexWrap:"wrap", alignItems:"center" }}>
@@ -135,7 +135,10 @@ export default function Transactions() {
               {filtered.length === 0 ? (
                 <tr><td colSpan={isAdmin ? 6 : 5} style={{ padding:"40px", textAlign:"center", color:"#aaa", fontSize:14 }}>No transactions found</td></tr>
               ) : filtered.map((t, i) => (
-                <tr key={t.id} style={{ borderBottom:"1px solid #F8F8F8", background: i%2===0 ? "#fff" : "#FDFCFC" }}>
+                <tr key={t.id} style={{ borderBottom:"1px solid #F8F8F8", background: i%2===0 ? "#fff" : "#FDFCFC", transition:"background 0.15s ease"  }}
+                    onMouseEnter={e => e.currentTarget.style.background = "#F5F7FF"}
+                    onMouseLeave={e => e.currentTarget.style.background = i%2===0 ? "#fff" : "#FDFCFC"}
+                >
                   <td style={{ padding:"12px 16px", color:"#666", whiteSpace:"nowrap" }}>{new Date(t.date).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" })}</td>
                   <td style={{ padding:"12px 16px", color:"#111", fontWeight:500 }}>{t.description}</td>
                   <td style={{ padding:"12px 16px" }}>

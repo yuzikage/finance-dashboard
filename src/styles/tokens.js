@@ -3,7 +3,8 @@ const S = {
         background:"#fff", 
         border:"1px solid #F0F0F0", 
         borderRadius:14, 
-        padding:"20px 24px" 
+        padding:"20px 24px",
+        transition:"box-shadow 0.2s ease, border-color 0.2s ease"
     },
     metricCard: { 
         background:"#FAFAFA", 
@@ -29,7 +30,7 @@ const S = {
         fontSize:13, 
         fontWeight:500, 
         cursor:"pointer", 
-        transition:"opacity 0.15s" 
+        transition:"opacity 0.15s ease, transform 0.1s ease"
     },
     btnOutline: { 
         background:"transparent", 
@@ -39,7 +40,8 @@ const S = {
         padding:"7px 14px", 
         fontSize:13, 
         fontWeight:500, 
-        cursor:"pointer" 
+        cursor:"pointer",
+        transition:"background 0.15s ease, border-color 0.15s ease"
     },
     input: { 
         border:"1px solid #E8E8E8", 

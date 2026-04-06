@@ -59,10 +59,13 @@ export default function Insights() {
   ];
 
   return (
-    <div style={{ display:"flex", flexDirection:"column", gap:20 }}>
+    <div style={{ display:"flex", flexDirection:"column", gap:20, animation:"fadeIn 0.3s ease" }}>
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))", gap:14 }}>
         {insightCards.map((c, i) => (
-          <div key={i} style={{ ...S.card, borderTop:`3px solid ${c.color}` }}>
+          <div key={i} style={{ ...S.card, borderTop:`3px solid ${c.color}` }}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.07)"}
+            onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
+          >
             <div style={{ fontSize:22, marginBottom:8 }}>{c.icon}</div>
             <div style={{ fontSize:12, color:"#999", fontWeight:500, marginBottom:4 }}>{c.title}</div>
             <div style={{ fontSize:22, fontWeight:700, color:c.color }}>{c.value}</div>
