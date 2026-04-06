@@ -1,3 +1,7 @@
+body {
+  margin: 0;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -6,4 +10,32 @@
 @keyframes modalIn {
   from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.dark {
+  --bg-primary: #111111;
+  --bg-secondary: #1C1C1E;
+  --bg-card: #1C1C1E;
+  --bg-input: #2C2C2E;
+  --bg-hover: #2C2C2E;
+  --bg-stripe: #181818;
+  --text-primary: #F0F0F0;
+  --text-secondary: #A0A0A0;
+  --text-muted: #666666;
+  --border-color: #2C2C2E;
+  --border-input: #3A3A3C;
+}
+
+.light {
+  --bg-primary: #F7F7F5;
+  --bg-secondary: #FAFAFA;
+  --bg-card: #ffffff;
+  --bg-input: #FAFAFA;
+  --bg-hover: #F7F3F3;
+  --bg-stripe: #FDFCFC;
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --text-muted: #999999;
+  --border-color: #F0F0F0;
+  --border-input: #E8E8E8;
 }

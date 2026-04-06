@@ -11,7 +11,7 @@ export default function TransactionForm({ initial, onSave, onClose }) {
       <div><label style={S.label}>Type</label>
         <div style={{ display:"flex", gap:8 }}>
           {["expense","income"].map(t => (
-            <button key={t} onClick={() => set("type", t)} style={{ flex:1, padding:"8px", borderRadius:8, border:`1.5px solid ${form.type===t ? "#111" : "#E8E8E8"}`, background: form.type===t ? "#111" : "#fff", color: form.type===t ? "#fff" : "#555", fontWeight:500, fontSize:13, cursor:"pointer", textTransform:"capitalize" }}>{t}</button>
+            <button key={t} onClick={() => set("type", t)} style={{ flex:1, padding:"8px", borderRadius:8, border:`1.5px solid ${form.type===t ? "var(--text-primary)" : "var(--border-color)"}`, background: form.type===t ? "var(--text-primary)" : "var(--bg-card)", color: form.type===t ? "var(--bg-card)" : "var(--text-secondary)", fontWeight:500, fontSize:13, cursor:"pointer", textTransform:"capitalize" }}>{t}</button>
           ))}
         </div>
       </div>

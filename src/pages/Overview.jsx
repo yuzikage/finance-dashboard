@@ -52,24 +52,24 @@ export default function Overview() {
             }}
             onMouseLeave={e => {
                 e.currentTarget.style.boxShadow = "none";
-                e.currentTarget.style.borderColor = "#F0F0F0";
+                e.currentTarget.style.borderColor = "var(--border-color)";
                 e.currentTarget.style.borderLeftColor = m.color;
             }}
             >
-                <div style={{ fontSize:12, fontWeight:500, color:"#999", letterSpacing:"0.4px", textTransform:"uppercase", marginBottom:6 }}>{m.label}</div>
-                <div style={{ fontSize:26, fontWeight:700, color:"#111", lineHeight:1.2 }}>{m.value}</div>
-                <div style={{ fontSize:12, color:"#888", marginTop:4 }}>{m.sub}</div>
+                <div style={{ fontSize:12, fontWeight:500, color:"var(--text-muted)", letterSpacing:"0.4px", textTransform:"uppercase", marginBottom:6 }}>{m.label}</div>
+                <div style={{ fontSize:26, fontWeight:700, color:"var(--text-primary)", lineHeight:1.2 }}>{m.value}</div>
+                <div style={{ fontSize:12, color:"var(--text-muted)", marginTop:4 }}>{m.sub}</div>
             </div>
         ))}
       </div>
 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
         <div style={S.card}>
-          <div style={{ fontSize:13, fontWeight:600, color:"#111", marginBottom:4 }}>Monthly Overview</div>
-          <div style={{ fontSize:12, color:"#999", marginBottom:16 }}>Income vs expenses by month</div>
+          <div style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)", marginBottom:4 }}>Monthly Overview</div>
+          <div style={{ fontSize:12, color:"var(--text-muted)", marginBottom:16 }}>Income vs expenses by month</div>
           <div style={{ display:"flex", gap:12, marginBottom:12 }}>
             {[["#27AE60","Income"],["#E84A7A","Expenses"]].map(([c,l]) => (
-              <span key={l} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"#666" }}>
+              <span key={l} style={{ display:"flex", alignItems:"center", gap:5, fontSize:12, color:"var(--text-secondary)" }}>
                 <span style={{ width:10, height:10, borderRadius:2, background:c, display:"inline-block" }} />{l}
               </span>
             ))}
@@ -78,8 +78,8 @@ export default function Overview() {
         </div>
 
         <div style={S.card}>
-          <div style={{ fontSize:13, fontWeight:600, color:"#111", marginBottom:4 }}>Spending Breakdown</div>
-          <div style={{ fontSize:12, color:"#999", marginBottom:16 }}>By category</div>
+          <div style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)", marginBottom:4 }}>Spending Breakdown</div>
+          <div style={{ fontSize:12, color:"var(--text-muted)", marginBottom:16 }}>By category</div>
           <div style={{ display:"flex", alignItems:"center", gap:16 }}>
             <DonutChart data={byCategory} size={140} />
             <div style={{ flex:1, display:"flex", flexDirection:"column", gap:6 }}>
@@ -87,9 +87,9 @@ export default function Overview() {
                 <div key={i} style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:6 }}>
                   <div style={{ display:"flex", alignItems:"center", gap:6 }}>
                     <span style={{ width:8, height:8, borderRadius:2, background:CATEGORY_COLORS[d.label]||"#ccc", display:"inline-block", flexShrink:0 }} />
-                    <span style={{ fontSize:12, color:"#555", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", maxWidth:90 }}>{d.label}</span>
+                    <span style={{ fontSize:12, color:"var(--text-secondary)", whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis", maxWidth:90 }}>{d.label}</span>
                   </div>
-                  <span style={{ fontSize:12, fontWeight:600, color:"#111", flexShrink:0 }}>{fmtShort(d.value)}</span>
+                  <span style={{ fontSize:12, fontWeight:600, color:"var(--text-primary)", flexShrink:0 }}>{fmtShort(d.value)}</span>
                 </div>
               ))}
             </div>
@@ -98,11 +98,11 @@ export default function Overview() {
       </div>
 
       <div style={S.card}>
-        <div style={{ fontSize:13, fontWeight:600, color:"#111", marginBottom:4 }}>Balance Trend</div>
-        <div style={{ fontSize:12, color:"#999", marginBottom:12 }}>Net savings across months</div>
+        <div style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)", marginBottom:4 }}>Balance Trend</div>
+        <div style={{ fontSize:12, color:"var(--text-muted)", marginBottom:12 }}>Net savings across months</div>
         <SparkLine values={balanceTrend} color="#4A90D9" height={56} />
         <div style={{ display:"flex", justifyContent:"space-between", marginTop:6 }}>
-          {byMonth.map((m, i) => <span key={i} style={{ fontSize:11, color:"#aaa" }}>{m.label}</span>)}
+          {byMonth.map((m, i) => <span key={i} style={{ fontSize:11, color:"var(--text-muted)" }}>{m.label}</span>)}
         </div>
       </div>
     </div>

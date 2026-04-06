@@ -32,7 +32,7 @@ export default function Transactions() {
 
     const SortIcon = ({ col }) => {
     if (sortBy !== col) return <span style={{ color:"#ccc" }}>↕</span>;
-    return <span style={{ color:"#111" }}>{sortDir === "asc" ? "↑" : "↓"}</span>;
+    return <span style={{ color:"var(--text-primary)" }}>{sortDir === "asc" ? "↑" : "↓"}</span>;
     };
 
     useEffect(() => {
@@ -91,7 +91,7 @@ export default function Transactions() {
                 {showExport && (
                     <div style={{
                     position:"absolute", top:"calc(100% + 6px)", right:0,
-                    background:"#fff", border:"1px solid #E8E8E8", borderRadius:10,
+                    background:"var(--bg-card)", border:"1px solid var(--border-color)", borderRadius:10,
                     boxShadow:"0 4px 20px rgba(0,0,0,0.08)", zIndex:50,
                     minWidth:140, overflow:"hidden"
                     }}>
@@ -99,10 +99,10 @@ export default function Transactions() {
                         <button key={label} onClick={fn} style={{
                         display:"block", width:"100%", padding:"10px 16px",
                         background:"none", border:"none", textAlign:"left",
-                        fontSize:13, color:"#333", cursor:"pointer",
+                        fontSize:13, color:"var(--text-primary)", cursor:"pointer",
                         borderBottom: label==="CSV" ? "1px solid #F5F5F5" : "none",
                         }}
-                        onMouseEnter={e => e.target.style.background = "#F7F7F5"}
+                        onMouseEnter={e => e.target.style.background = "var(--bg-secondary)"}
                         onMouseLeave={e => e.target.style.background = "none"}
                         >
                         Download {label}
@@ -121,7 +121,7 @@ export default function Transactions() {
         <div style={{ overflowX:"auto" }}>
           <table style={{ width:"100%", borderCollapse:"collapse", fontSize:13 }}>
             <thead>
-              <tr style={{ background:"#FAFAFA", borderBottom:"1px solid #F0F0F0" }}>
+              <tr style={{ background:"var(--bg-secondary)", borderBottom:"1px solid var(--border-color)" }}>
                 {[["date","Date"],["description","Description"],["category","Category"],["type","Type"],["amount","Amount"]].map(([col, label]) => (
                   <th key={col} style={{ padding:"12px 16px", textAlign:"left", fontWeight:500, color:"#777", fontSize:12, letterSpacing:"0.3px", whiteSpace:"nowrap", cursor:"pointer", userSelect:"none" }}
                     onClick={() => dispatch({ type:"SET_SORT", payload: col })}>
@@ -133,19 +133,25 @@ export default function Transactions() {
             </thead>
             <tbody>
               {filtered.length === 0 ? (
-                <tr><td colSpan={isAdmin ? 6 : 5} style={{ padding:"40px", textAlign:"center", color:"#aaa", fontSize:14 }}>No transactions found</td></tr>
+                <tr><td colSpan={isAdmin ? 6 : 5} style={{ padding:"40px", textAlign:"center", color:"var(--text-muted)", fontSize:14 }}>No transactions found</td></tr>
               ) : filtered.map((t, i) => (
-                <tr key={t.id} style={{ borderBottom:"1px solid #F8F8F8", background: i%2===0 ? "#fff" : "#FDFCFC", transition:"background 0.15s ease"  }}
-                    onMouseEnter={e => e.currentTarget.style.background = "#F5F7FF"}
-                    onMouseLeave={e => e.currentTarget.style.background = i%2===0 ? "#fff" : "#FDFCFC"}
+                <tr key={t.id} style={{ borderBottom:"1px solid var(--border-color)", background: i%2===0 ? "var(--bg-card)" : "var(--bg-stripe)", transition:"background 0.15s ease"  }}
+                    onMouseEnter={e => e.currentTarget.style.background = "var(--bg-hover)"}
+                    onMouseLeave={e => e.currentTarget.style.background = i%2===0 ? "var(--bg-card)" : "var(--bg-stripe)"}
                 >
-                  <td style={{ padding:"12px 16px", color:"#666", whiteSpace:"nowrap" }}>{new Date(t.date).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" })}</td>
-                  <td style={{ padding:"12px 16px", color:"#111", fontWeight:500 }}>{t.description}</td>
+                  <td style={{ padding:"12px 16px", color:"var(--text-secondary)", whiteSpace:"nowrap" }}>{new Date(t.date).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" })}</td>
+                  <td style={{ padding:"12px 16px", color:"var(--text-primary)", fontWeight:500 }}>{t.description}</td>
                   <td style={{ padding:"12px 16px" }}>
-                    <span style={{ background: `${CATEGORY_COLORS[t.category]}20`, color: CATEGORY_COLORS[t.category] || "#555", ...S.badge(CATEGORY_COLORS[t.category], `${CATEGORY_COLORS[t.category]}18`) }}>{t.category}</span>
+                    <span style={{ background: `${CATEGORY_COLORS[t.category]}20`, color: CATEGORY_COLORS[t.category] || "var(--text-secondary)", ...S.badge(CATEGORY_COLORS[t.category], `${CATEGORY_COLORS[t.category]}18`) }}>{t.category}</span>
                   </td>
                   <td style={{ padding:"12px 16px" }}>
-                    <span style={t.type==="income" ? S.badge("#1a8a4a","#E8F8EF") : S.badge("#c73060","#FEF0F5")}>{t.type}</span>
+                    <span style={
+                        t.type === "income"
+                            ? { background: state.darkMode ? "#0D2B1A" : "#E8F8EF", color: state.darkMode ? "#27AE60" : "#1a8a4a", fontSize: 11, fontWeight: 600, padding: "3px 8px", borderRadius: 6 }
+                            : { background: state.darkMode ? "#521428" : "#FEF0F5", color: state.darkMode ? "#E5386C" : "#c73060", fontSize: 11, fontWeight: 600, padding: "3px 8px", borderRadius: 6 }
+                        }>
+                        {t.type}
+                    </span>
                   </td>
                   <td style={{ padding:"12px 16px", fontWeight:600, color: t.type==="income" ? "#27AE60" : "#E84A7A" }}>
                     {t.type==="income" ? "+" : "-"}{fmt(t.amount)}
@@ -153,7 +159,7 @@ export default function Transactions() {
                   {isAdmin && (
                     <td style={{ padding:"12px 16px", textAlign:"right" }}>
                       <button style={{ ...S.btnOutline, padding:"4px 10px", fontSize:12, marginRight:6 }} onClick={() => setEditTxn(t)}>Edit</button>
-                      <button style={{ background:"#FFF0F4", color:"#E84A7A", border:"1px solid #FCCDD9", borderRadius:8, padding:"4px 10px", fontSize:12, cursor:"pointer" }} onClick={() => dispatch({ type:"DELETE_TRANSACTION", payload: t.id })}>Delete</button>
+                      <button style={{ background: state.darkMode ? "#521428" : "#FEF0F5", color: state.darkMode ? "#E5386C" : "#c73060", border:"1px solid #923048", borderRadius:8, padding:"4px 10px", fontSize:12, cursor:"pointer" }} onClick={() => dispatch({ type:"DELETE_TRANSACTION", payload: t.id })}>Delete</button>
                     </td>
                   )}
                 </tr>
@@ -161,7 +167,7 @@ export default function Transactions() {
             </tbody>
           </table>
         </div>
-        <div style={{ padding:"10px 16px", borderTop:"1px solid #F0F0F0", fontSize:12, color:"#aaa" }}>
+        <div style={{ padding:"10px 16px", borderTop:"1px solid var(--border-color)", fontSize:12, color:"var(--text-muted)" }}>
           Showing {filtered.length} of {transactions.length} transactions
         </div>
       </div>

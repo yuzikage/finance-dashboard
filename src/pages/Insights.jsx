@@ -63,27 +63,27 @@ export default function Insights() {
       <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fit, minmax(200px, 1fr))", gap:14 }}>
         {insightCards.map((c, i) => (
           <div key={i} style={{ ...S.card, borderTop:`3px solid ${c.color}` }}
-            onMouseEnter={e => e.currentTarget.style.boxShadow = "0 4px 16px rgba(0,0,0,0.07)"}
+            onMouseEnter={e => e.currentTarget.style.boxShadow = state.darkMode ? "0 4px 16px rgba(51, 51, 117, 0.2)" : "0 4px 16px rgba(0,0,0,0.07)"}
             onMouseLeave={e => e.currentTarget.style.boxShadow = "none"}
           >
             <div style={{ fontSize:22, marginBottom:8 }}>{c.icon}</div>
-            <div style={{ fontSize:12, color:"#999", fontWeight:500, marginBottom:4 }}>{c.title}</div>
+            <div style={{ fontSize:12, color:"var(--text-muted)", fontWeight:500, marginBottom:4 }}>{c.title}</div>
             <div style={{ fontSize:22, fontWeight:700, color:c.color }}>{c.value}</div>
-            <div style={{ fontSize:12, color:"#888", marginTop:4 }}>{c.detail}</div>
+            <div style={{ fontSize:12, color:"var(--text-muted)", marginTop:4 }}>{c.detail}</div>
           </div>
         ))}
       </div>
 
       <div style={{ display:"grid", gridTemplateColumns:"1fr 1fr", gap:20 }}>
         <div style={S.card}>
-          <div style={{ fontSize:13, fontWeight:600, color:"#111", marginBottom:16 }}>Spending by Category</div>
-          {byCategory.length === 0 ? <div style={{ color:"#aaa", fontSize:13 }}>No expense data</div> : byCategory.map(([cat, val], i) => (
+          <div style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)", marginBottom:16 }}>Spending by Category</div>
+          {byCategory.length === 0 ? <div style={{ color:"var(--text-muted)", fontSize:13 }}>No expense data</div> : byCategory.map(([cat, val], i) => (
             <div key={i} style={{ marginBottom:10 }}>
               <div style={{ display:"flex", justifyContent:"space-between", marginBottom:4 }}>
-                <span style={{ fontSize:13, color:"#555" }}>{cat}</span>
-                <span style={{ fontSize:13, fontWeight:600, color:"#111" }}>{fmt(val)}</span>
+                <span style={{ fontSize:13, color:"var(--text-secondary)" }}>{cat}</span>
+                <span style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)" }}>{fmt(val)}</span>
               </div>
-              <div style={{ height:6, background:"#F0F0F0", borderRadius:3, overflow:"hidden" }}>
+              <div style={{ height:6, background:"var(--border-color)", borderRadius:3, overflow:"hidden" }}>
                 <div style={{ height:"100%", background:CATEGORY_COLORS[cat]||"#ccc", borderRadius:3, width:`${(val/byCategory[0][1])*100}%`, transition:"width 0.4s ease" }} />
               </div>
             </div>
@@ -91,11 +91,11 @@ export default function Insights() {
         </div>
 
         <div style={S.card}>
-          <div style={{ fontSize:13, fontWeight:600, color:"#111", marginBottom:16 }}>Month-over-Month</div>
-          {byMonth.length === 0 ? <div style={{ color:"#aaa", fontSize:13 }}>No data</div> : byMonth.map((m, i) => (
+          <div style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)", marginBottom:16 }}>Month-over-Month</div>
+          {byMonth.length === 0 ? <div style={{ color:"var(--text-muted)", fontSize:13 }}>No data</div> : byMonth.map((m, i) => (
             <div key={i} style={{ marginBottom:14 }}>
               <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:5 }}>
-                <span style={{ fontSize:13, fontWeight:500, color:"#333" }}>{m.month}</span>
+                <span style={{ fontSize:13, fontWeight:500, color:"var(--text-primary)" }}>{m.month}</span>
                 <span style={{ fontSize:12, fontWeight:600, color: m.net >= 0 ? "#27AE60" : "#E84A7A" }}>{m.net >= 0 ? "+" : ""}{fmt(m.net)}</span>
               </div>
               <div style={{ display:"flex", gap:4 }}>
@@ -107,8 +107,8 @@ export default function Insights() {
                 </div>
               </div>
               <div style={{ display:"flex", gap:12, marginTop:3 }}>
-                <span style={{ fontSize:11, color:"#888" }}>Income: {fmtShort(m.income)}</span>
-                <span style={{ fontSize:11, color:"#888" }}>Exp: {fmtShort(m.expense)}</span>
+                <span style={{ fontSize:11, color:"var(--text-muted)" }}>Income: {fmtShort(m.income)}</span>
+                <span style={{ fontSize:11, color:"var(--text-muted)" }}>Exp: {fmtShort(m.expense)}</span>
               </div>
             </div>
           ))}
@@ -116,7 +116,7 @@ export default function Insights() {
       </div>
 
       <div style={S.card}>
-        <div style={{ fontSize:13, fontWeight:600, color:"#111", marginBottom:4 }}>Key Observations</div>
+        <div style={{ fontSize:13, fontWeight:600, color:"var(--text-primary)", marginBottom:4 }}>Key Observations</div>
         <div style={{ display:"flex", flexDirection:"column", gap:10, marginTop:12 }}>
           {[
             byCategory[0] && `Your highest expense is in ${byCategory[0][0]} (${fmt(byCategory[0][1])}), accounting for ${((byCategory[0][1]/totalExpenses)*100).toFixed(0)}% of total spending.`,
@@ -124,7 +124,7 @@ export default function Insights() {
             spendingChange !== null && `Your spending ${Number(spendingChange) > 0 ? "increased" : "decreased"} by ${Math.abs(spendingChange)}% compared to the previous month.`,
             byCategory.length > 2 && `You spend across ${byCategory.length} categories. Consider consolidating discretionary spend in ${byCategory[1]?.[0]} and ${byCategory[2]?.[0]}.`,
           ].filter(Boolean).map((obs, i) => (
-            <div key={i} style={{ display:"flex", gap:10, padding:"10px 14px", background:"#F9F9F9", borderRadius:8, fontSize:13, color:"#444", lineHeight:1.6 }}>
+            <div key={i} style={{ display:"flex", gap:10, padding:"10px 14px", background:"var(--bg-secondary)", border: "1px solid var(--border-color)", borderRadius:8, fontSize:13, color:"var(--text-secondary)", lineHeight:1.6 }}>
               <span style={{ color:"#4A90D9", flexShrink:0, marginTop:1 }}>→</span>
               {obs}
             </div>
