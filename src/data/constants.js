@@ -17,3 +17,9 @@ export const CATEGORY_COLORS = {
 };
 
 export const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+export const NAV = [
+  { id:"overview", label:"Overview", icon:"◈" },
+  { id:"transactions", label:"Transactions", icon:"≡" },
+  { id:"insights", label:"Insights", icon:"⬡" },
+];
