@@ -1,4 +1,4 @@
-export const S = {
+const S = {
     card: { 
         background:"#fff", 
         border:"1px solid #F0F0F0", 
@@ -72,3 +72,5 @@ export const S = {
         display:"block" 
     },
 };
+
+export default S;
