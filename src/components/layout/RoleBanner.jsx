@@ -1,7 +1,5 @@
 import { useAppContext } from "../../hooks/useAppContext";
 
-import { useState } from "react";
-
 export default function RoleBanner(){
     const { state } = useAppContext();
     if (state.role !== "viewer") return null;
