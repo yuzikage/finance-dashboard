@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {fmt} from "../utils/formatters";
 import { CATEGORIES, CATEGORY_COLORS } from "../data/constants";
 import { useAppContext } from "../hooks/useAppContext";
@@ -7,40 +7,64 @@ import Modal from "../components/ui/Modal";
 import TransactionForm from "../components/transactions/TransactionForm";
 
 export default function Transactions() {
-  const { state, dispatch } = useAppContext();
-  const { transactions, filters, sortBy, sortDir, role } = state;
-  const [showAdd, setShowAdd] = useState(false);
-  const [editTxn, setEditTxn] = useState(null);
+    const { state, dispatch } = useAppContext();
+    const { transactions, filters, sortBy, sortDir, role } = state;
+    const [showAdd, setShowAdd] = useState(false);
+    const [editTxn, setEditTxn] = useState(null);
+    const [showExport, setShowExport] = useState(false);
 
-  const isAdmin = role === "admin";
+    const isAdmin = role === "admin";
 
-  const filtered = useMemo(() => {
+    const filtered = useMemo(() => {
     let t = [...transactions];
     if (filters.type !== "all") t = t.filter(x => x.type === filters.type);
     if (filters.category !== "all") t = t.filter(x => x.category === filters.category);
     if (filters.search) t = t.filter(x => x.description.toLowerCase().includes(filters.search.toLowerCase()) || x.category.toLowerCase().includes(filters.search.toLowerCase()));
     t.sort((a, b) => {
-      let cmp = 0;
-      if (sortBy === "date") cmp = new Date(a.date) - new Date(b.date);
-      else if (sortBy === "amount") cmp = a.amount - b.amount;
-      else if (sortBy === "description") cmp = a.description.localeCompare(b.description);
-      return sortDir === "asc" ? cmp : -cmp;
+        let cmp = 0;
+        if (sortBy === "date") cmp = new Date(a.date) - new Date(b.date);
+        else if (sortBy === "amount") cmp = a.amount - b.amount;
+        else if (sortBy === "description") cmp = a.description.localeCompare(b.description);
+        return sortDir === "asc" ? cmp : -cmp;
     });
     return t;
-  }, [transactions, filters, sortBy, sortDir]);
+    }, [transactions, filters, sortBy, sortDir]);
 
-  const SortIcon = ({ col }) => {
+    const SortIcon = ({ col }) => {
     if (sortBy !== col) return <span style={{ color:"#ccc" }}>↕</span>;
     return <span style={{ color:"#111" }}>{sortDir === "asc" ? "↑" : "↓"}</span>;
-  };
+    };
 
-  const exportCSV = () => {
-    const header = "Date,Description,Category,Type,Amount\n";
-    const rows = transactions.map(t => `${t.date},"${t.description}",${t.category},${t.type},${t.amount}`).join("\n");
-    const blob = new Blob([header + rows], { type:"text/csv" });
-    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "transactions.csv"; a.click();
-  };
+    useEffect(() => {
+        const handler = (e) => {
+            if (!e.target.closest("[data-export-dropdown]")) setShowExport(false);
+        };
+        document.addEventListener("mousedown", handler);
+        return () => document.removeEventListener("mousedown", handler);
+    }, []);
 
+    const exportCSV = () => {
+        const header = "Date,Description,Category,Type,Amount\n";
+        const rows = transactions.map(t => 
+            `${t.date},"${t.description}",${t.category},${t.type},${t.amount}`
+        ).join("\n");
+        triggerDownload(header + rows, "transactions.csv", "text/csv");
+        };
+
+        const exportJSON = () => {
+        const data = JSON.stringify(transactions, null, 2);
+        triggerDownload(data, "transactions.json", "application/json");
+        };
+
+        const triggerDownload = (content, filename, type) => {
+        const blob = new Blob([content], { type });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+        setShowExport(false);
+    };
+    
   return (
     <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
       {/* Filters */}
@@ -57,7 +81,36 @@ export default function Transactions() {
             {CATEGORIES.map(c => <option key={c}>{c}</option>)}
           </select>
           <div style={{ marginLeft:"auto", display:"flex", gap:8 }}>
-            <button style={S.btnOutline} onClick={exportCSV}>Export CSV</button>
+            <div style={{ position:"relative" }} data-export-dropdown>
+                <button
+                    style={S.btnOutline}
+                    onClick={() => setShowExport(v => !v)}
+                >
+                    Export ▾
+                </button>
+                {showExport && (
+                    <div style={{
+                    position:"absolute", top:"calc(100% + 6px)", right:0,
+                    background:"#fff", border:"1px solid #E8E8E8", borderRadius:10,
+                    boxShadow:"0 4px 20px rgba(0,0,0,0.08)", zIndex:50,
+                    minWidth:140, overflow:"hidden"
+                    }}>
+                    {[["CSV", exportCSV], ["JSON", exportJSON]].map(([label, fn]) => (
+                        <button key={label} onClick={fn} style={{
+                        display:"block", width:"100%", padding:"10px 16px",
+                        background:"none", border:"none", textAlign:"left",
+                        fontSize:13, color:"#333", cursor:"pointer",
+                        borderBottom: label==="CSV" ? "1px solid #F5F5F5" : "none",
+                        }}
+                        onMouseEnter={e => e.target.style.background = "#F7F7F5"}
+                        onMouseLeave={e => e.target.style.background = "none"}
+                        >
+                        Download {label}
+                        </button>
+                    ))}
+                    </div>
+                )}
+            </div>
             {isAdmin && <button style={S.btn} onClick={() => setShowAdd(true)}>+ Add</button>}
           </div>
         </div>
